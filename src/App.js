@@ -1,23 +1,34 @@
-import logo from './logo.svg';
+import { Button, Form, Input, Typography, message } from "antd";
 import './App.css';
 
 function App() {
+  const login = ()=>{
+    message.success("Login Succesfull");
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="loginbg">
+      <Form className="loginForm" onFinish={login}>
+      <Typography.Title style={{color:"blue"}}>Welcome!</Typography.Title>
+        <Form.Item rules={[{
+            required: true,
+            type: "email",
+            message: "Please enter valid email",
+          },
+        ]} 
+        label='Email' name={'myEmail'}>
+          <Input placeholder='Enter your email'/>
+        </Form.Item>
+        <Form.Item rules={[{
+            required: true,
+            message: "Please enter correct password",
+          },
+        ]}  label='Password' name={'myPassword'}>
+          <Input.Password placeholder='Enter your password'/>
+        </Form.Item>
+        <Button type="primary" htmlType="submit" block>
+          Login
+        </Button>
+      </Form>
     </div>
   );
 }

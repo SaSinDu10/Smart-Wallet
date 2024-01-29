@@ -1,28 +1,76 @@
 import { Button, Form, Input, Typography, message } from "antd";
 import './App.css';
+import { useMutation, gql } from '@apollo/client';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import dashboad from "./pages/dashboad";
+//import { GraphQLError } from "graphql";
+
+const LOGIN_MUTATION = gql`
+mutation Mutation($username: String!, $password: String!) {
+  SignIn(username: $username, password: $password)
+}
+`;
 
 function App() {
-  const login = ()=>{
-    message.success("Login Succesfull");
+  const [loginMutation] = useMutation(LOGIN_MUTATION);
+
+  const login = async (values) => {
+    console.log(values);
+    try {
+      const { data } = await loginMutation({
+        variables: {
+          username: values.myUsername,
+          password: values.myPassword,
+        },
+      });
+
+      const accessToken = data.SignIn;
+
+      console.log("Access Token:", data);
+
+     
+      message.success(`Login Successful. Access Token: ${accessToken}`);
+    } catch (error) {
+      console.error("Login error:", error);
+
+      if (error.graphQLErrors){
+        error.graphQLErrors.forEach(GraphQLError =>{
+          console.error("GraphQL Error:",GraphQLError.message);
+        });
+      }
+      if (error.networkError){
+        console.error("Network Error:",error.networkError);
+      }
+
+      message.error('Login Failed. Please check your credentials.');
+    }
   };
+
   return (
     <div className="loginbg">
-      <Form className="loginForm" onFinish={login}>
-      <Typography.Title style={{color:"blue"}}>Welcome!</Typography.Title>
-        <Form.Item rules={[{
-            required: true,
-            type: "email",
-            message: "Please enter valid email",
-          },
-        ]} 
-        label='Email' name={'myEmail'}>
-          <Input placeholder='Enter your email'/>
+      <Form className="loginForm" onFinish={login} layout="vertical">
+        <Typography.Title style={{color:"blue", textAlign:"center"}}>Welcome!</Typography.Title>
+        <Form.Item
+          rules={[
+            {
+              required: true,
+              type: "string",
+              message: "Please enter your username",
+            },
+          ]}
+          label='Username' name='myUsername'
+        >
+          <Input placeholder='Enter your Username'/>
         </Form.Item>
-        <Form.Item rules={[{
-            required: true,
-            message: "Please enter correct password",
-          },
-        ]}  label='Password' name={'myPassword'}>
+        <Form.Item
+          rules={[
+            {
+              required: true,
+              message: "Please enter your password",
+            },
+          ]}
+          label='Password' name='myPassword'
+        >
           <Input.Password placeholder='Enter your password'/>
         </Form.Item>
         <Button type="primary" htmlType="submit" block>

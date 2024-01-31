@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink  } from "@apollo/client";
 import { BrowserRouter, Route,Routes} from "react-router-dom";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
@@ -12,10 +12,25 @@ import Students from "./pages/Students";
 import AddStudent from "./pages/AddStudent";
 import AddCourse from "./pages/AddCourse";
 import Courses from "./pages/Courses";
+import { setContext } from "@apollo/client/link/context";
 
 //const root = ReactDOM.createRoot(document.getElementById("root"));
-const client = new ApolloClient({
+/*const client = new ApolloClient({
   uri: "http://155.248.246.152:8081/graphql",
+  cache: new InMemoryCache(),
+});*/
+
+const client = new ApolloClient({
+  link: setContext(async (_, { headers }) => {
+    return {
+      headers: {
+        ...headers,
+        Authorization: sessionStorage.getItem("AccessToken")
+      },
+    }
+  }).concat(createHttpLink({
+    uri: "http://155.248.246.152:8081/graphql",
+  })),
   cache: new InMemoryCache(),
 });
 

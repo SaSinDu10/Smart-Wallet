@@ -23,7 +23,7 @@ const Students = () => {
     return <p>Error loading data</p>;
   }
 
-  console.log('GraphQL Data:', data);
+  console.log('GraphQL Data:', data.GetStudent);
 
   const columns = [
     {
@@ -45,7 +45,7 @@ const Students = () => {
     <MainUi>
       <div>
         <Divider>Student Table</Divider>
-        <Table columns={columns} dataSource={data} size="middle" />
+        <Table columns={columns} dataSource={data.GetStudent} size="middle" />
       </div>
     </MainUi>
   );

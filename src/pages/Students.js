@@ -4,7 +4,7 @@ import { useQuery, gql } from '@apollo/client';
 import MainUi from '../components/MainUi';
 
 const GET_STUDENTS = gql`
-  query Query {
+query Query {
     GetStudents {
       _id
       isActive
@@ -14,14 +14,14 @@ const GET_STUDENTS = gql`
 `;
 
 const Students = () => {
-  const { loading,  data } = useQuery(GET_STUDENTS);
+  const { loading, error,  data } = useQuery(GET_STUDENTS);
 
   if (loading) return <p>Loading...</p>;
 
-  /*if (error) {
+  if (error) {
     console.error('GraphQL Error:', error);
     return <p>Error loading data</p>;
-  }*/
+  }
 
   console.log('GraphQL Data:', data);
 

@@ -1,6 +1,6 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Layout, Menu } from "antd";
 import {
   HomeOutlined,
   UserAddOutlined,
@@ -10,8 +10,6 @@ import {
   SnippetsOutlined,
   DiffOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu } from "antd";
-
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -26,7 +24,6 @@ function getItem(label, key, icon, children) {
 
 const items = [
   getItem("Home", "1", <HomeOutlined />),
-
   getItem("Students", "sub1", <UserOutlined />, [
     getItem("View Students", "2", <TeamOutlined />),
     getItem("Add Student", "3", <UserAddOutlined />),
@@ -37,16 +34,12 @@ const items = [
   ]),
 ];
 
-const MainUi = () => {
+const MainUi = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
 
   return (
-    <Layout
-      style={{
-        minHeight: "100vh",
-      }}
-    >
+    <Layout style={{ minHeight: "100vh" }}>
       <Sider
         collapsible
         collapsed={collapsed}
@@ -59,7 +52,6 @@ const MainUi = () => {
           mode="inline"
           items={items}
           onClick={({ key }) => {
-            // Handle the menu item click and navigate accordingly
             switch (key) {
               case "2":
                 navigate("/Students");
@@ -74,33 +66,14 @@ const MainUi = () => {
                 navigate("/AddCourse");
                 break;
               default:
-                // Handle other menu items if needed
                 break;
             }
           }}
         />
       </Sider>
       <Layout>
-        <Header
-          /*style={{
-            padding: 0,
-            background: colorBgContainer,}
-          }*/
-        />
-        <Content
-          /*style={{
-            margin: "0 16px",
-          }}*/
-        >
-          <div
-            /*style={{
-              padding: 24,
-              minHeight: 360,
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
-            }}*/
-          ></div>
-        </Content>
+        <Header />
+        <Content>{children}</Content>
         <Footer></Footer>
       </Layout>
     </Layout>

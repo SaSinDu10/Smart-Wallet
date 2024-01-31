@@ -8,6 +8,10 @@ import { BrowserRouter, Route,Routes} from "react-router-dom";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import NoPage from "./pages/NoPage";
+import Students from "./pages/Students";
+import AddStudent from "./pages/AddStudent";
+import AddCourse from "./pages/AddCourse";
+import Courses from "./pages/Courses";
 
 //const root = ReactDOM.createRoot(document.getElementById("root"));
 const client = new ApolloClient({
@@ -27,6 +31,22 @@ const routes =[
   {
     path: "/Dashboard",
     element: <Dashboard />,
+  },
+  {
+    path: "/Students",
+    element: <Students/>,
+  },
+  {
+    path: "/AddStudent",
+    element: <AddStudent />,
+  },
+  {
+    path: "/Courses",
+    element: <Courses />,
+  },
+  {
+    path: "/AddCourse",
+    element: <AddCourse />,
   },
   {
     path: "*",

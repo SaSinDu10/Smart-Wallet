@@ -1,12 +1,18 @@
-import React from "react";
-import "./App.css";
-//import { useMutation, gql } from '@apollo/client';
-//import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, {useEffect} from "react";
+import {useNavigate } from "react-router-dom";
+
 
 function App() {
-  return <div className="App">
-    <App/>
-  </div>;
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (sessionStorage.getItem("AccessToken")) {
+      navigate ("/Dashboard");
+    } else {
+      navigate ("/Login");
+    }
+  });
+  return <div className="App"></div>;
 }
 
 export default App;
+
